@@ -1,0 +1,11 @@
+<%= form_with model: @job do |f|%>
+  <%= f.label :company_name, "会社名"%>
+  <%= f.text_field :company_name %><br>
+  <%= f.label :document_pass, "書類選考"%>
+  <%= f.select :document_pass, Job.document_passes.keys.map{|k| [I18n.t("enums.job.document_pass.#{k}"),k]} %><br>
+  <%= f.label :interview_pass, "面接選考"%>
+  <%= f.select :interview_pass, Job.interview_passes.keys.map{|k| [I18n.t("enums.job.interview_pass.#{k}"),k]} %><br>
+  <%= f.label :unofficial_offer, "内　　定"%>
+  <%= f.select :unofficial_offer, Job.unofficial_offers.keys.map{|k| [I18n.t("enums.job.unofficial_offer.#{k}"),k]} %><br>
+  <%= f.submit%>
+<%end%>

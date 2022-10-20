@@ -1,0 +1,101 @@
+<div class="d-flex justify-content-center">
+  <h1 class="mb-5 mt-4"><strong>転職活動実績</strong></h1>
+</div>
+<div class="d-flex justify-content-center">
+  <div class="my_chart1">
+    <canvas id="myChart1" width="300" height="300"></canvas>
+    <p>書類選考<br><span>全<%= @jobs1_0.count+@jobs1_1.count+@jobs1_2.count%>件</span></p>
+  </div>
+  <div class="my_chart2 mx-5">
+    <canvas id="myChart2" width="300" height="300"></canvas>
+    <p>面接選考<br><span>全<%= @jobs2_1.count+@jobs2_2.count+@jobs2_3.count%>件</span></p>
+  </div>
+  <div class="my_chart3 mb-5">
+    <canvas id="myChart3" width="300" height="300"></canvas>
+    <p>内定<br><span>全<%= @jobs3_1.count+@jobs3_2.count+@jobs3_3.count%>件</span></p>
+  </div>
+</div>
+
+
+<script>
+window.onload = function () {
+  var ctx = document.getElementById("myChart1");
+  var myChart1 = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['通過','選考中','落選'],
+      datasets: [{
+        backgroundColor: ['#3b82c4','#dbedf0','#dddddd'],
+        data: [<%= @jobs1_2.count%>,<%= @jobs1_0.count%>,<%= @jobs1_1.count%>],
+      }]
+    },
+    options: {
+      responsive: false,
+    }
+  });
+
+  var ctx = document.getElementById("myChart2");
+  var myChart2 = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['通過','選考中','落選'],
+      datasets: [{
+        backgroundColor: ['#3b82c4','#dbedf0','#dddddd'],
+        data: [<%= @jobs2_3.count%>,<%= @jobs2_1.count%>,<%= @jobs2_2.count%>],
+      }]
+    },
+    options: {
+      responsive: false,
+    }
+  });
+
+  var ctx = document.getElementById("myChart3");
+  var myChart3 = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['内定','選考中','落選'],
+      datasets: [{
+        backgroundColor: ['#3b82c4','#dbedf0','#dddddd'],
+        data: [<%= @jobs3_3.count%>,<%= @jobs3_1.count%>,<%= @jobs3_2.count%>],
+      }]
+    },
+    options: {
+      responsive: false,
+    }
+  });
+}
+</script>
+
+
+<%= form_with model: @job do |f|%>
+  <%= f.label :company_name, "会社名"%>
+  <%= f.text_field :company_name %>
+  <%= f.label :document_pass, "書類選考"%>
+  <%= f.select :document_pass, Job.document_passes.keys.map{|k| [I18n.t("enums.job.document_pass.#{k}"),k]} %>
+  <%= f.label :interview_pass, "面接選考"%>
+  <%= f.select :interview_pass, Job.interview_passes.keys.map{|k| [I18n.t("enums.job.interview_pass.#{k}"),k]} %>
+  <%= f.label :unofficial_offer, "内　　定"%>
+  <%= f.select :unofficial_offer, Job.unofficial_offers.keys.map{|k| [I18n.t("enums.job.unofficial_offer.#{k}"),k]} %>
+  <%= f.submit%>
+<%end%>
+
+  <table class="table table-bordered">
+    <tr>
+      <th>会社名</th>
+      <th>書類選考</th>
+      <th>面接選考</th>
+      <th>内定</th>
+      <th>編集</th>
+      <th>削除</th>
+    </tr>
+<% @jobs.each do |job|%>
+    <tr>
+      <td><%= job.company_name %></td>
+      <td><%= job.document_pass_i18n %></td>
+      <td><%= job.interview_pass_i18n %></td>
+      <td><%= job.unofficial_offer_i18n %></td>
+      <td><%= link_to "編集",edit_job_path(job)%></td>
+      <td><%= link_to "削除",job_path(job),method: :delete,"data-confirm"=>"本当に削除しますか？"%></td>
+    </tr>
+<%end%>
+  </table>

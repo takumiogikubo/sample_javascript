@@ -1,0 +1,17 @@
+ja:
+  enums:
+    job:
+      document_pass:
+        selection1: "選考中"
+        not_pass1: "落選"
+        pass1: "通過"
+      interview_pass:
+        selection_before2: "ー"
+        selection2: "選考中"
+        not_pass2: "落選"
+        pass2: "通過"
+      unofficial_offer:
+        selection_before3: "ー"
+        selection3: "選考中"
+        not_pass3: "落選"
+        pass3: "内定"
